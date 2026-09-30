@@ -35,11 +35,21 @@ else
     git clone -q --depth 1 "$REPO" "$DIR"
 fi
 
-for p in 80 "$PORT" 443; do
-    owner=$(ss -ltnpH "sport = :$p" 2>/dev/null | grep -v nginx || true)
+port_owner() { ss -ltnpH "sport = :$1" 2>/dev/null | grep -v nginx || true; }
+
+for p in 80 "$PORT"; do
+    owner=$(port_owner "$p")
     [ -z "$owner" ] || die "port $p is already used by another program:
 $owner"
 done
+
+# 443 is a bonus, not a requirement: on a server where something else
+# (xray, another site) already owns it, serve on $PORT only.
+USE_443=1
+if [ "$PORT" = "443" ] || [ -n "$(port_owner 443)" ]; then
+    USE_443=0
+    [ "$PORT" = "443" ] || echo "  port 443 is in use by another program, leaving it alone (serving on $PORT only)"
+fi
 
 say "Checking DNS"
 ip=$(curl -4 -fsS --max-time 8 https://api.ipify.org || true)
@@ -59,7 +69,7 @@ server {
     listen [::]:80;
     server_name $DOMAIN;
     location /.well-known/acme-challenge/ { root $WEBROOT; }
-    location / { return 301 https://\$host\$request_uri; }
+    location / { return 301 https://\$host:$PORT\$request_uri; }
 }
 EOF
 ln -sf "$CONF" /etc/nginx/sites-enabled/nexra-notice
@@ -72,17 +82,17 @@ if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
 fi
 
 say "Writing nginx config"
-listen_port=""
-if [ "$PORT" != "443" ]; then
-    listen_port="    listen $PORT ssl;
-    listen [::]:$PORT ssl;"
+listen_443=""
+if [ "$USE_443" = 1 ]; then
+    listen_443="    listen 443 ssl;
+    listen [::]:443 ssl;"
 fi
 cat >>"$CONF" <<EOF
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-$listen_port
+    listen $PORT ssl;
+    listen [::]:$PORT ssl;
+$listen_443
     http2 on;
     server_name $DOMAIN;
 
@@ -120,4 +130,5 @@ fi
 
 say "Done"
 echo "  https://$DOMAIN:$PORT/dashboard"
-echo "  https://$DOMAIN/"
+[ "$USE_443" = 1 ] && echo "  https://$DOMAIN/"
+exit 0
