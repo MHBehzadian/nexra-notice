@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#f8f9fb" />
+    <link rel="icon" type="image/png" href="/assets/icon.png" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+    <title>Nexra Panel</title>
+    <style>
+        @font-face {
+            font-family: 'Yekan';
+            font-weight: 400;
+            font-display: swap;
+            src: url('/assets/Yekan.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Vazirmatn';
+            font-weight: 400;
+            font-display: swap;
+            src: url('/assets/vazirmatn-400.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Vazirmatn';
+            font-weight: 500;
+            font-display: swap;
+            src: url('/assets/vazirmatn-500.woff2') format('woff2');
+        }
+
+        /* Same tokens as the panel's light theme (the login page is light only). */
+        :root {
+            --background: 220 27% 98%;
+            --foreground: 216 49% 15%;
+            --card: 0 0% 100%;
+            --muted-foreground: 215 19% 43%;
+            --border: 214 32% 91%;
+            --primary: 216 49% 15%;
+            --primary-foreground: 0 0% 100%;
+            --brand-blue: 217 91% 60%;
+            --warn: 32 95% 44%;
+            --surface-gradient: linear-gradient(145deg, #ffffff 0%, #f7f9fb 100%);
+            --surface-highlight: rgba(255, 255, 255, 0.92);
+            --surface-shadow: 0 18px 48px rgba(19, 34, 56, 0.07);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Yekan', 'Vazirmatn', Tahoma, ui-sans-serif, system-ui, sans-serif;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .root {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            overflow-y: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            background-image: radial-gradient(ellipse 70% 50% at 50% -10%, hsl(var(--brand-blue) / .12), transparent 62%);
+        }
+
+        .aurora {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .aurora-1 {
+            width: 46vw; height: 46vw; min-width: 380px; min-height: 380px;
+            top: -14%; left: -8%;
+            background: radial-gradient(circle, hsl(var(--brand-blue) / .62), transparent 70%);
+            animation: drift-1 24s ease-in-out infinite alternate;
+        }
+
+        .aurora-2 {
+            width: 40vw; height: 40vw; min-width: 320px; min-height: 320px;
+            bottom: -16%; right: -6%;
+            background: radial-gradient(circle, hsl(217 91% 55% / .50), transparent 70%);
+            animation: drift-2 30s ease-in-out infinite alternate;
+        }
+
+        .aurora-3 {
+            width: 34vw; height: 34vw; min-width: 280px; min-height: 280px;
+            top: 34%; right: 22%;
+            background: radial-gradient(circle, hsl(205 90% 60% / .42), transparent 70%);
+            animation: drift-3 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes drift-1 { from { transform: translate3d(0, 0, 0) scale(1) } to { transform: translate3d(8vw, 6vh, 0) scale(1.14) } }
+        @keyframes drift-2 { from { transform: translate3d(0, 0, 0) scale(1.08) } to { transform: translate3d(-7vw, -5vh, 0) scale(1) } }
+        @keyframes drift-3 { from { transform: translate3d(0, 0, 0) scale(.94) } to { transform: translate3d(-5vw, 7vh, 0) scale(1.12) } }
+
+        .card {
+            width: 100%;
+            max-width: 412px;
+            background: var(--surface-gradient);
+            border: 1px solid hsl(var(--border));
+            border-radius: 1.75rem;
+            padding: 36px 32px 24px;
+            box-shadow: inset 0 1px 0 0 var(--surface-highlight), var(--surface-shadow);
+            position: relative;
+            z-index: 1;
+            margin: auto;
+        }
+
+        .brand {
+            direction: ltr;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 22px;
+        }
+
+        .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: hsl(var(--warn));
+            box-shadow: 0 0 12px 1px hsl(var(--warn) / .5);
+            animation: pulse 2.4s ease-in-out infinite;
+        }
+
+        @keyframes pulse { 50% { opacity: .35 } }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .logo img {
+            width: 132px;
+            height: auto;
+        }
+
+        .title {
+            font-weight: 900;
+            font-size: 24px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            color: hsl(var(--foreground));
+        }
+
+        .sub {
+            font-size: 14px;
+            color: hsl(var(--muted-foreground));
+            line-height: 2;
+            margin-bottom: 24px;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            border-radius: 12px;
+            padding: 15px 16px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform .18s ease, background .15s ease, box-shadow .18s ease, border-color .15s ease;
+        }
+
+        .btn svg {
+            width: 19px;
+            height: 19px;
+            flex: none;
+        }
+
+        .btn-primary {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            border: 1px solid hsl(var(--primary));
+            box-shadow: 0 12px 28px rgba(19, 34, 56, .16);
+        }
+
+        .btn-primary:hover {
+            background: hsl(var(--primary) / .9);
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            background: hsl(var(--card));
+            color: hsl(var(--foreground));
+            border: 1px solid hsl(var(--border));
+        }
+
+        .btn-ghost:hover {
+            border-color: hsl(var(--brand-blue));
+            box-shadow: 0 0 0 3px hsl(var(--brand-blue) / .14);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px hsl(var(--brand-blue) / .35);
+        }
+
+        .foot {
+            direction: ltr;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid hsl(var(--border));
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: hsl(var(--muted-foreground));
+        }
+
+        @media (max-width: 420px) {
+            .card { padding: 30px 22px 20px; }
+            .title { font-size: 21px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .dot, .aurora { animation: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="root">
+        <div class="aurora aurora-1" aria-hidden="true"></div>
+        <div class="aurora aurora-2" aria-hidden="true"></div>
+        <div class="aurora aurora-3" aria-hidden="true"></div>
+
+        <main class="card">
+            <div class="brand"><span class="dot"></span> Panel Notice</div>
+
+            <div class="logo">
+                <img src="/assets/logo.png" alt="Nexra Panel" />
+            </div>
+
+            <h1 class="title">نسخه پنل شما قدیمی است</h1>
+            <p class="sub">
+                نسخه پنل مورد استفاده شما قدیمی می‌باشد. لطفاً از پنل جدید استفاده کنید
+                و یا با پشتیبانی در ارتباط باشید.
+            </p>
+
+            <div class="actions">
+                <a class="btn btn-primary" href="https://panel.nexradns.site/dashboard/login">
+                    ورود به پنل جدید
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M19 12H5M11 18l-6-6 6-6" />
+                    </svg>
+                </a>
+                <a class="btn btn-ghost" href="https://t.me/aria1060" target="_blank" rel="noopener">
+                    ارتباط با پشتیبانی
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M21.9 4.3c.3-1.3-.9-2.3-2.1-1.8L2.9 9c-1.3.5-1.3 2.3.1 2.7l4.3 1.3 1.7 5.3c.3.9 1.4 1.2 2.1.6l2.4-2.1 4.6 3.4c.9.6 2.1.1 2.3-.9L21.9 4.3zM9.6 13.4l7.9-6.2c.3-.2.6.2.4.4l-6.4 6.3-.3 3.1-1.6-3.6z" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="foot">
+                <span>Status · Moved</span>
+                <span>Nexra</span>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
