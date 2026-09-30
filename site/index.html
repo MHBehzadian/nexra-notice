@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <meta name="theme-color" content="#f8f9fb" />
+    <meta name="theme-color" content="#080e18" />
     <link rel="icon" type="image/png" href="/assets/icon.png" />
     <link rel="apple-touch-icon" href="/assets/icon.png" />
     <title>Nexra Panel</title>
@@ -31,19 +31,20 @@
             src: url('/assets/vazirmatn-500.woff2') format('woff2');
         }
 
-        /* Same tokens as the panel's light theme (the login page is light only). */
+        /* The panel's dark theme tokens. */
         :root {
-            --background: 220 27% 98%;
-            --foreground: 216 49% 15%;
-            --card: 0 0% 100%;
-            --muted-foreground: 215 19% 43%;
-            --border: 214 32% 91%;
-            --primary: 216 49% 15%;
+            color-scheme: dark;
+            --background: 218 50% 6%;
+            --foreground: 210 40% 96%;
+            --card: 216 44% 12%;
+            --muted-foreground: 217 21% 72%;
+            --border: 219 28% 22%;
+            --primary: 222 78% 60%;
             --primary-foreground: 0 0% 100%;
-            --brand-blue: 217 91% 60%;
-            --surface-gradient: linear-gradient(145deg, #ffffff 0%, #f7f9fb 100%);
-            --surface-highlight: rgba(255, 255, 255, 0.92);
-            --surface-shadow: 0 18px 48px rgba(19, 34, 56, 0.07);
+            --brand-blue: 222 78% 60%;
+            --surface-gradient: linear-gradient(145deg, #172033 0%, #131c2c 50%, #101827 100%);
+            --surface-highlight: rgba(255, 255, 255, 0.04);
+            --surface-shadow: 0 22px 55px rgba(0, 0, 0, 0.2);
         }
 
         *,
@@ -89,21 +90,21 @@
         .aurora-1 {
             width: 46vw; height: 46vw; min-width: 380px; min-height: 380px;
             top: -14%; left: -8%;
-            background: radial-gradient(circle, hsl(var(--brand-blue) / .62), transparent 70%);
+            background: radial-gradient(circle, hsl(var(--brand-blue) / .32), transparent 70%);
             animation: drift-1 24s ease-in-out infinite alternate;
         }
 
         .aurora-2 {
             width: 40vw; height: 40vw; min-width: 320px; min-height: 320px;
             bottom: -16%; right: -6%;
-            background: radial-gradient(circle, hsl(217 91% 55% / .50), transparent 70%);
+            background: radial-gradient(circle, hsl(217 91% 55% / .26), transparent 70%);
             animation: drift-2 30s ease-in-out infinite alternate;
         }
 
         .aurora-3 {
             width: 34vw; height: 34vw; min-width: 280px; min-height: 280px;
             top: 34%; right: 22%;
-            background: radial-gradient(circle, hsl(205 90% 60% / .42), transparent 70%);
+            background: radial-gradient(circle, hsl(205 90% 60% / .18), transparent 70%);
             animation: drift-3 20s ease-in-out infinite alternate;
         }
 
@@ -191,7 +192,7 @@
             background: hsl(var(--primary));
             color: hsl(var(--primary-foreground));
             border: 1px solid hsl(var(--primary));
-            box-shadow: 0 12px 28px rgba(19, 34, 56, .16);
+            box-shadow: 0 12px 28px hsl(var(--primary) / .28);
         }
 
         .btn-primary:hover {
